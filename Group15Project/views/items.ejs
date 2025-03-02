@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dheeraj Vundela">
+    <title>Available Vehicles</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+    <%- include('partials/header') %>
+
+
+    <main class="content">
+        <h2>Available Vehicles</h2>
+    
+        <a href="/items/new" class="button">Add New Listing</a>
+
+        <% if (items.length === 0) { %>
+            <p>No items available at the moment.</p>
+        <% } else { %>
+            <div class="product-grid">
+                <% items.forEach(item => { %>
+                    <div class="product-card">
+                        <a href="/items/<%= item.id %>">
+                            <div class="image-wrapper">
+                                <img src="/images/<%= item.image %>" alt="Image of <%= item.title %>" class="product-image" loading="lazy">
+                            </div>
+                            <h3><%= item.title %></h3>
+                            <p><strong>Condition:</strong> <%= item.condition %></p>
+                            <p><strong>Price:</strong> $<%= item.price.toFixed(2) %></p>
+                        </a>
+                        <div class="button-group">
+                            <a href="/items/<%= item.id %>" class="button">View Details</a>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        <% } %>
+    </main>
+    <script>
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+
+        // Check localStorage for theme preference
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            body.classList.add('dark-mode');
+        }
+
+        darkModeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', body.classList.contains('dark-mode') ? 'enabled' : 'disabled');
+        });
+    </script>
+
+    <style>
+        body.dark-mode {
+            background-color: #121212;
+            color: white;
+        }
+    </style>
+
+    <%- include('partials/footer') %>
+</body>
+</html>

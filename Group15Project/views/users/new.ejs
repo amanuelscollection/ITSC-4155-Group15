@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="/css/Style.css">
+</head>
+<body>
+    <%- include('../partials/header') %>
+
+    <div class="form-container">
+        <h2>Sign Up</h2>
+        <form action="/users" method="POST">
+            <input type="text" name="firstName" placeholder="First Name" required>
+            <input type="text" name="lastName" placeholder="Last Name" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Register</button>
+        </form>
+        <% if (errorMessages.length > 0) { %>
+            <div><%= errorMessages.join(', ') %></div>
+        <% } %>
+    </body>
+    </html>
