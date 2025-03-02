@@ -1,0 +1,26 @@
+<header>
+    <img src="/images/logovintagecar.png" alt="Vintage Car Logo" id="logo">
+    <h1>Welcome to Vintage Car Marketplace</h1>
+    
+    <nav>
+        <ul>
+            <form method="GET" action="/items" class="search-form">
+                <input type="text" name="search" placeholder="Search Items..." class="search-bar">
+                <button type="submit" class="search-button">Search</button>
+            </form>
+            <li><a href="/">Home</a></li>
+            <li><a href="/items">Browse</a></li>
+            
+            
+            <% if (user) { %>
+                <li><a href="/items/new">Sell</a></li>
+                <li><a href="/users/profile">My Account</a></li>
+                <li><a href="/users/logout">Log Out</a></li>
+            <% } else { %>
+                <li><a href="/users/signup">Sign Up</a></li>
+                <li><a href="/users/login">Login</a></li>
+            <% } %>
+        </ul>
+    </nav>
+    
+</header>
