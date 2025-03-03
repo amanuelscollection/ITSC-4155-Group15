@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dheeraj Vundela">
+    <title><%= item.title %> - Shoe Shack</title> 
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+    <%- include('partials/header') %>
+
+    <main class="content">
+        <section class="item-detail">
+            <h2><%= item.title %></h2> 
+            <figure>
+                <img src="/images/<%= item.image %>" alt="Image of <%= item.title %>" class="product-image" loading="lazy">
+                <figcaption><%= item.title %></figcaption>
+            </figure>
+            
+            <p><strong>Condition:</strong> <%= item.condition %></p> 
+            <p><strong>Price:</strong> $<%= item.price.toFixed(2) %></p> 
+            <p><strong>Total Offers:</strong> <%= item.totalOffers %></p>
+            <% if (item.totalOffers > 0) { %>
+                <p><strong>Highest Offer:</strong> $<%= item.highestOffer.toFixed(2) %></p>
+            <% } %>
+            <% if (!item.active) { %>
+                <p><strong>Status:</strong> This car is no longer available.</p>
+            <% } %>
+            <p><strong>Seller:</strong> <%= item.seller %></p> 
+
+            <% if (item.active) { %>
+                <form action="/offers/<%= item._id %>" method="POST">
+                    <input type="number" name="amount" placeholder="Enter your offer amount" required>
+                    <button type="submit">Make Offer</button>
+                </form>
+            <% } %>
+        </section>
+    </main>
+
+    <%- include('partials/footer') %>
+</body>
+</html>
