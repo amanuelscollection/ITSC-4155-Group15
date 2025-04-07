@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/Style.css">
+    <title>Vintage Vehicle Marketplace</title>
+    <link rel="icon" href="/images/logovintagecar.png" type="image/x-icon">
+</head>
+<body>
+    <div class="header">
+        <a href="/"><img src="/images/logovintagecar.png" alt="Logo" class="logo"></a>
+        <form method="GET" action="/items" class="search-form">
+            <input type="text" name="search" placeholder="Search Items..." class="search-bar">
+            <button type="submit" class="search-button">Search</button>
+        </form>
+        <nav>
+            <a href="/items" style="color: white;">Browse</a>
+            <a href="/items/new" style="color: white;"">Sell</a>
+            <% if (!user) { %>
+                <a href="/users/signup" style="color: white;">Sign Up</a>
+                <a href="/users/login" style="color: white;">Login</a>
+            <% } else { %>
+                <a href="/users/profile" style="color: white;"">Profile</a>
+                <a href="/users/logout" style="color: white;">Logout</a>
+            <% } %>
+        </nav>
+
+    <button id="modeToggle" class="button theme-toggle">🌙 / ☀️</button>
+</div>
+
+    </div>
+    <div class="flash-messages">
+        <% if (successMessage) { %>
+            <div class="success">
+                <%= successMessage %>
+            </div>
+        <% } %>
+        <% if (errorMessage) { %>
+            <div class="error">
+                <%= errorMessage %>
+            </div>
+        <% } %>
+    </div>

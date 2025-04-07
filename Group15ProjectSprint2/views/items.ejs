@@ -1,0 +1,35 @@
+<%- include('partials/header') %>
+<div class="items-list">
+        <h2>Available Vehicles</h2>
+    
+        <a href="/items/new" class="button">Add New Listing</a>
+
+        <% if (items.length === 0) { %>
+            <p>No items available at the moment.</p>
+        <% } else { %>
+            <div class="items-list">
+                <% items.forEach(item => { %>
+                    <div class="item">
+                        <a href="/items/<%= item.id %>">
+                            <div class="image-wrapper">
+                                <img src="/images/<%= item.image %>" alt="Image of <%= item.title %>" class="product-image" loading="lazy">
+                            </div>
+                            <h3 style="color: black;"><%= item.title %></h3>
+                            <p style="color: black;"><strong>Condition:</strong> <%= item.condition %></p>
+                            <p style="color: black;"><strong>Price:</strong> $<%= item.price.toFixed(2) %></p>
+                        </a>
+                        <div class="button-container">
+                            <a href="/items/<%= item.id %>" class="button">View Details</a>
+                            <%if(user == item.seller._id) {%>
+                            <a href="/items/<%= item.id %>/edit" class="button">Edit</a>
+                            <form action="/items/<%= item.id %>?_method=DELETE" method="POST" style="display: inline;">
+                                <button type="submit" class="button red-button">Delete</button>
+                            </form>                    
+                            <%}%>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        <% } %>
+        </div>
+        <%- include('./partials/footer.ejs') %>

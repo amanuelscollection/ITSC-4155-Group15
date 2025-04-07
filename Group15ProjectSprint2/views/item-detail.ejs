@@ -1,0 +1,29 @@
+<%- include('./partials/header.ejs') %>
+<div class="container">
+            <h1><%= item.title %></h1> 
+            <div class="item-detail">
+            <div class="item-image">
+                <img src="/images/<%= item.image %>" alt="Image of <%= item.title %>">
+            </div>
+            <p><strong>Seller:</strong> <%= item.seller.firstName %> <%= item.seller.lastName %></strong></p>
+            <p><strong>Brand:</strong> <%= item.brand %></p>
+            <p><strong>Condition:</strong> <%= item.condition %></p> 
+            <p><strong>Price:</strong> $<%= item.price.toFixed(2) %></p> 
+            <p><strong>Total Offers:</strong> <%= item.totalOffers %></p>
+            <% if (item.totalOffers > 0) { %>
+                <p><strong>Highest Offer:</strong> $<%= item.highestOffer.toFixed(2) %></p>
+            <% } %>
+            <% if (!item.active) { %>
+                <p><strong>Status:</strong> This car is no longer available.</p>
+            <% } %> 
+
+            <% if (item.active && userId !== item.seller._id.toString()) { %>
+                <form action="/offers/<%= item._id %>" class="form" method="POST">
+                    <input type="number" name="amount" placeholder="Enter your offer amount" required>
+                    <button type="submit">Make Offer</button>
+                </form>
+            <% } %>            
+            </div>
+        </div>
+        <%- include('./partials/footer.ejs') %>
+        
