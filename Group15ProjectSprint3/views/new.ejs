@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dheeraj Vundela">
+    <title>List Your Vintage Vehicle</title>
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+    <%- include('partials/header') %>
+
+    <div class="container">
+            <h1>List Vehicle</h1>
+            <form action="/items" method="POST" class="form" enctype="multipart/form-data"> 
+                <div>
+                    <label for="title">Car Model:</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                <div>
+                    <label for="brand">Brand:</label>
+                    <input type="text" id="brand" name="brand" required>
+                </div>
+                <div>
+                    <label for="price">Price:</label>
+                    <input type="number" id="price" name="price" required min="0.01" step="0.01">
+                </div>
+                <div>
+                    <label for="condition">Condition:</label>
+                        <select id="condition" name="condition" required>
+                            <option value="New">New</option>
+                            <option value="Like New">Like New</option>
+                            <option value="Good">Good</option>
+                            <option value="Fair">Fair</option>
+                        </select>
+                    
+                </div>
+                <div>
+                    <label for="totalOffers">Total Offers:</label>
+                    <input type="number" id="totalOffers" name="totalOffers" value="0" required readonly>
+                </div>
+                <div>
+                    <label for="image">Upload Image:</label>
+                    <input type="file" id="image" name="image" accept="image/*" required onchange="previewImage(event)">
+                    
+
+                    <div class="image-preview-wrapper">
+                        <img id="imagePreview" class="image-preview" alt="Image Preview" style="width:350px;height:auto; display: none;">
+                    </div>
+                </div>
+                <div>
+                    <button type="submit">List Vehicle</button>
+                </div>
+            </form>
+
+    <script>
+        function previewImage(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function() {
+                const imagePreview = document.getElementById('imagePreview');
+                imagePreview.src = reader.result;
+                imagePreview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    </script>
+</div>
+<%- include('./partials/footer.ejs') %>

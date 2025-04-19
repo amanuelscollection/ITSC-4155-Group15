@@ -1,0 +1,27 @@
+<footer>
+    <div class="footer">
+        <p style="color: black;">&copy; 2024 Vintage Vehicle Marketplace. All rights reserved.</p>
+        <div class="social-media">
+            <a href="#"><img src="/images/facebook-icon.png" alt="Facebook"></a>
+            <a href="#"><img src="/images/twitter-icon.png" alt="Twitter"></a>
+            <a href="#"><img src="/images/instagram-icon.png" alt="Instagram"></a>
+        </div>
+    </div>
+    </footer>
+
+
+    <script>
+        const toggleButton = document.getElementById('modeToggle');
+        const body = document.body;
+      
+        if (localStorage.getItem('theme') === 'dark') {
+          body.classList.add('dark-mode');
+        }
+      
+        toggleButton?.addEventListener('click', () => {
+          body.classList.toggle('dark-mode');
+          const theme = body.classList.contains('dark-mode') ? 'dark' : 'light';
+          localStorage.setItem('theme', theme);
+        });
+      </script>
+      
