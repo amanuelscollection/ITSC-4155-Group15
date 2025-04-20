@@ -202,22 +202,37 @@ exports.deleteItem = async (req, res) => {
     }
  };
  
- exports.index = (req, res, next) => {
-    Item.find({ active: true })
-        .populate('seller', 'firstName lastName')
-        .then(items => {
-            if (req.query.search) {
-                const searchTerm = req.query.search.toLowerCase();
-                items = items.filter(item =>
-                    item.title.toLowerCase().includes(searchTerm) ||
-                    item.details.toLowerCase().includes(searchTerm)
-                );
-            }
-            items.sort((a, b) => a.price - b.price);
-            res.render('items', { items });
-        })
-        .catch(err => next(err));
+ exports.index = async (req, res, next) => {
+    try {
+        const searchTerm = req.query.search ? req.query.search.toLowerCase() : '';
+        const sortOrder = req.query.sort === 'desc' ? 'desc' : 'asc';
+
+        let items = await Item.find({ active: true }).populate('seller', 'firstName lastName');
+
+        if (searchTerm) {
+            items = items.filter(item =>
+                item.title.toLowerCase().includes(searchTerm) ||
+                item.details.toLowerCase().includes(searchTerm)
+            );
+        }
+
+        items.sort((a, b) => {
+            return sortOrder === 'desc'
+                ? Number(b.price) - Number(a.price)
+                : Number(a.price) - Number(b.price);
+        });
+
+        res.render('items', {
+            items,
+            searchTerm
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).render('error', { errorMessage: 'Server error' });
+    }
 };
+
 
 exports.show = (req, res, next) => {
     const id = req.params.id;
