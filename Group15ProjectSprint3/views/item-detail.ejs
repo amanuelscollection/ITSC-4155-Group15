@@ -23,6 +23,31 @@
                     <button type="submit">Make Offer</button>
                 </form>
             <% } %>            
+            <button id="reportBtn" style="background-color:red;color:white;margin-top:10px;">
+                Report Scam
+              </button>
+              
+              <script>
+                document.getElementById('reportBtn').addEventListener('click', async () => {
+                  const itemId = "<%= item._id %>";
+              
+                  try {
+                    const res = await fetch(`/items/${itemId}/report`, {
+                      method: 'POST'
+                    });
+              
+                    if (res.ok) {
+                      alert('Thanks! This listing has been reported.');
+                    } else {
+                      alert('There was a problem reporting the listing.');
+                    }
+                  } catch (err) {
+                    console.error(err);
+                    alert('Something went wrong.');
+                  }
+                });
+              </script>
+              
             </div>
         </div>
         <%- include('./partials/footer.ejs') %>

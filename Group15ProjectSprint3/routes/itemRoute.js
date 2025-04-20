@@ -15,4 +15,11 @@ router.put('/:id', auth, itemController.upload.single('image'), itemController.u
 
 router.delete('/:id', auth, itemController.deleteItem);
 
+router.post('/:id/report', (req, res) => {
+    const itemId = req.params.id;
+    console.log(`Item ${itemId} has been reported as a scam.`);
+    // (You could flag this in memory, flash a message, or just confirm)
+    res.send(`Item ${itemId} has been reported as a scam.`);
+  });
+
 module.exports = router;
