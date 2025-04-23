@@ -1,0 +1,68 @@
+<%- include('./partials/header.ejs') %>
+<div class="container">
+            <h1><%= item.title %></h1> 
+            <div class="item-detail">
+            <div class="item-image">
+                <img src="/images/<%= item.image %>" alt="Image of <%= item.title %>">
+            </div>
+            <p><strong>Seller:</strong> <%= item.seller.firstName %> <%= item.seller.lastName %></strong></p>
+            <p><strong>Brand:</strong> <%= item.brand %></p>
+            <p><strong>Condition:</strong> <%= item.condition %></p> 
+            <p><strong>Price:</strong> $<%= item.price.toFixed(2) %></p>
+            <p><strong>Year:</strong> <%= item.year %></p> 
+            <p><strong>Total Offers:</strong> <%= item.totalOffers %></p>
+            <p><strong>Phone-Number:</strong> <%= item.phone %></p>
+            <p><strong>Email:</strong> <%= item.email %></p>
+            <% if (item.contactPreference && item.contactPreference.length > 0) { %>
+              <p><strong>Seller prefers to be contacted by: </strong>
+                  <%= item.contactPreference.join(' and ') %>
+              </p>
+            <% } %>     
+            <p><strong>Posted on:</strong> <%= new Date(item.createdAt).toLocaleDateString() %></p>
+            <% if (item.totalOffers > 0) { %>
+                <p><strong>Highest Offer:</strong> $<%= item.highestOffer.toFixed(2) %></p>
+            <% } %>
+            <% if (!item.active) { %>
+                <p><strong>Status:</strong> This car is no longer available.</p>
+            <% } %> 
+
+            <% if (item.active && userId !== item.seller._id.toString()) { %>
+                <form action="/offers/<%= item._id %>" class="form" method="POST">
+                    <input type="number" name="amount" placeholder="Enter your offer amount" required>
+                    <button type="submit">Make Offer</button>
+                </form>
+            <% } %>
+            <% if (item.active && userId && userId !== item.seller._id.toString()) { %>
+                <form action="/users/wishlist/<%= item._id %>" method="POST" style="margin-top: 10px;">
+                    <button type="submit" class="button">Add to Wishlist</button>
+                </form>
+            <% } %>            
+            <button id="reportBtn" style="background-color:red;color:white;margin-top:10px;">
+                Report Scam
+              </button>
+              
+              <script>
+                document.getElementById('reportBtn').addEventListener('click', async () => {
+                  const itemId = "<%= item._id %>";
+              
+                  try {
+                    const res = await fetch(`/items/${itemId}/report`, {
+                      method: 'POST'
+                    });
+              
+                    if (res.ok) {
+                      alert('Thanks! This listing has been reported.');
+                    } else {
+                      alert('There was a problem reporting the listing.');
+                    }
+                  } catch (err) {
+                    console.error(err);
+                    alert('Something went wrong.');
+                  }
+                });
+              </script>
+              
+            </div>
+        </div>
+        <%- include('./partials/footer.ejs') %>
+        

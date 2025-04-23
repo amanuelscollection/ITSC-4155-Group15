@@ -1,0 +1,49 @@
+<%- include('partials/header') %>
+
+<div class="items-list">
+    <div class="dropdown">
+        <button class="dropbtn">Sort By</button>
+        <div class="dropdown-content">
+            <a href="/items?sort=price-desc" class="<%= sortOption === 'price-desc' ? 'active-sort' : '' %>">Price: High to Low</a>
+            <a href="/items?sort=price-asc" class="<%= sortOption === 'price-asc' ? 'active-sort' : '' %>">Price: Low to High</a>
+            <a href="/items?sort=year-asc" class="<%= sortOption === 'year-asc' ? 'active-sort' : '' %>">Year: Oldest First</a>
+            <a href="/items?sort=year-desc" class="<%= sortOption === 'year-desc' ? 'active-sort' : '' %>">Year: Newest First</a>
+            <a href="/items?sort=recent" class="<%= sortOption === 'recent' ? 'active-sort' : '' %>">Recently Added</a>
+        </div>
+    </div>    
+    <h2>Available Vehicles</h2>
+    <a href="/items/new" class="button">Add New Listing</a>
+
+    <% if (items.length === 0) { %>
+        <p>No items available at the moment.</p>
+    <% } else { %>
+        <div class="items-list">
+            <% items.forEach(item => { %>
+                <div class="item">
+                    <a href="/items/<%= item.id %>">
+                        <div class="image-wrapper">
+                            <img src="/images/<%= item.image %>" alt="Image of <%= item.title %>" class="product-image" loading="lazy">
+                        </div>
+                        <h3 style="color: black;"><%= item.title %></h3>
+                        <p style="color: black;"><strong>Condition:</strong> <%= item.condition %></p>
+                        <p style="color: black;"><strong>Price:</strong> $<%= item.price.toFixed(2) %></p>
+                        <p style="color: black;"><strong>Year:</strong> <%= item.year %></p>
+                        <p style="color: black;"><strong>Posted:</strong> <%= new Date(item.createdAt).toLocaleDateString() %></p>                        
+                    </a>
+
+                    <div class="button-container">
+                        <a href="/items/<%= item.id %>" class="button">View Details</a>
+                        <% if (user == item.seller?._id || user == item.seller) { %>
+                            <a href="/items/<%= item.id %>/edit" class="button">Edit</a>
+                            <form action="/items/<%= item.id %>?_method=DELETE" method="POST" style="display: inline;">
+                                <button type="submit" class="button red-button">Delete</button>
+                            </form>
+                        <% } %>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    <% } %>
+</div>
+
+<%- include('./partials/footer.ejs') %>
